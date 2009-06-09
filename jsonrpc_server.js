@@ -7,9 +7,32 @@ Drupal.service = function(method, parameters, callback, id) {
     'url': Drupal.settings.basePath +"?q=services/json-rpc",
     'type': "POST",
     'data': call,
+    'dataType': 'json',
     'success': function(data) {
-      parsed = Drupal.parseJson(data);
-      callback(parsed['result'], parsed['error'], parsed['id']);
+      callback(data['result'], data['error'], data['id']);
+    },
+    'timeout' : 10000,
+    'error': function (XMLHttpRequest, textStatus, errorThrown) {
+      var error;
+
+      switch (textStatus) {
+        case 'timeout':
+          error = Drupal.t('The server didn\'t respond');
+          break;
+        case 'error':
+          error = Drupal.t('An error occurred');
+          break;
+        case 'notmodified':
+          error = false;
+          break;
+        case 'parsererror':
+          error = Drupal.t('Couldn\'t read server response');
+          break;
+        default:
+          error = Drupal.t('An unknown error occurred');
+          break;
+      }
+      callback([], error, null);
     }
   });
 }
