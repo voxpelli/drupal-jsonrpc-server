@@ -17,19 +17,19 @@ Drupal.service = function(method, parameters, callback, id) {
 
       switch (textStatus) {
         case 'timeout':
-          error = Drupal.t('The server didn\'t respond');
+          error = Drupal.t("The server didn't respond");
           break;
         case 'error':
-          error = Drupal.t('An error occurred');
+          error = Drupal.t("An error occurred");
           break;
         case 'notmodified':
           error = false;
           break;
         case 'parsererror':
-          error = Drupal.t('Couldn\'t read server response');
+          error = Drupal.t("Couldn't read server response");
           break;
         default:
-          error = Drupal.t('An unknown error occurred');
+          error = Drupal.t("An unknown error occurred");
           break;
       }
       callback([], error, null);
